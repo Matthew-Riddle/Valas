@@ -1,0 +1,138 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://res/characters.png" type="Texture" id=1]
+[ext_resource path="res://state_machine/StateMachine.gd" type="Script" id=2]
+[ext_resource path="res://player/Move.gd" type="Script" id=3]
+[ext_resource path="res://player/Idle.gd" type="Script" id=4]
+[ext_resource path="res://player/Feared.gd" type="Script" id=5]
+[ext_resource path="res://player/Falling.gd" type="Script" id=6]
+[ext_resource path="res://player/Jump.gd" type="Script" id=7]
+[ext_resource path="res://player/Run.gd" type="Script" id=8]
+
+
+
+[sub_resource type="Animation" id=1]
+resource_name = "Run"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 24, 25, 26, 25 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 23 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "skid"
+length = 0.3
+step = 0.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0653691, 0.0988582 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 27, 28, 29 ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Sprite:scale:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.95, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.00192393, 0.178927, 0.290515 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Sprite:scale:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0.000961971, 0.175079, 0.288591 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -15.0349 ), Vector2( 5, -15.035 ), Vector2( 0, -15.0349 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 7.88764, 11.2519 )
+
+[node name="Player" type="KinematicBody2D"]
+scale = Vector2( 2, 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -15.0349 )
+texture = ExtResource( 1 )
+vframes = 4
+hframes = 23
+frame = 26
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Run = SubResource( 1 )
+anims/idle = SubResource( 2 )
+anims/skid = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.524467, -10.8391 )
+shape = SubResource( 4 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 2 )
+initial_state = NodePath("Move/Idle")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource( 3 )
+
+[node name="Idle" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 4 )
+
+[node name="Paused" type="Node" parent="StateMachine/Move"]
+
+[node name="Feared" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 5 )
+
+[node name="Falling" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 6 )
+
+[node name="Jump" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 7 )
+
+[node name="Run" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 8 )
