@@ -1,6 +1,6 @@
 extends PState
 
-export var FIRE_RATE = .19
+export var FIRE_RATE = .000001
 var cooldown = 0.0
 
 func unhandled_input(event: InputEvent) -> void:

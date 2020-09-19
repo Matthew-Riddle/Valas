@@ -34,7 +34,6 @@ _data = [ Vector2( 0, -200 ), 0.0, 13.6441, 0, 0, Vector2( 0.318005, -200 ), -21
 curve = SubResource( 6 )
 
 [sub_resource type="ParticlesMaterial" id=8]
-trail_divisor = 74
 flag_align_y = true
 flag_rotate_y = true
 flag_disable_z = true
@@ -67,10 +66,12 @@ repeat = true
 playback/repeat = true
 
 [node name="Particles2D" type="Particles2D" parent="."]
-modulate = Color( 0.94902, 0.588235, 0.0745098, 1 )
+visible = false
+modulate = Color( 0.819608, 0.45098, 0.0980392, 1 )
 material = SubResource( 3 )
 position = Vector2( -30, 0 )
 scale = Vector2( -1, 1 )
+amount = 200
 fixed_fps = 30
 local_coords = false
 process_material = SubResource( 8 )
