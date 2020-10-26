@@ -1,15 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://res/characters.png" type="Texture" id=1]
 [ext_resource path="res://Enemy/Enemy_StateMachine.gd" type="Script" id=2]
 [ext_resource path="res://Enemy/Enemy_Move.gd" type="Script" id=3]
 [ext_resource path="res://Enemy/Patrol.gd" type="Script" id=4]
+[ext_resource path="res://Enemy/RayCast2D.gd" type="Script" id=5]
+[ext_resource path="res://Enemy/Enemy.gd" type="Script" id=6]
+[ext_resource path="res://Enemy/Enemy_Jump.gd" type="Script" id=7]
+[ext_resource path="res://Enemy/Enemy_Falling.gd" type="Script" id=8]
+[ext_resource path="res://Enemy/Enemy_Idle.gd" type="Script" id=9]
+[ext_resource path="res://Enemy/GroundRay.gd" type="Script" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 12.4132, 21.2664 )
 
 [node name="Enemy" type="KinematicBody2D"]
 collision_mask = 0
+script = ExtResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -15 )
@@ -27,10 +34,36 @@ shape = SubResource( 1 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 2 )
-initial_state = NodePath("Move/Patrol")
+initial_state = NodePath("Move/Falling")
 
 [node name="Move" type="Node" parent="StateMachine"]
 script = ExtResource( 3 )
 
 [node name="Patrol" type="Node" parent="StateMachine/Move"]
 script = ExtResource( 4 )
+
+[node name="Idle" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 9 )
+
+[node name="Jump" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 7 )
+
+[node name="Falling" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 8 )
+
+[node name="WallRay" type="RayCast2D" parent="."]
+position = Vector2( 0, 5 )
+z_as_relative = false
+enabled = true
+cast_to = Vector2( 30, 0 )
+collision_mask = 2147483649
+collide_with_areas = true
+script = ExtResource( 5 )
+
+[node name="GroundRay" type="RayCast2D" parent="."]
+z_as_relative = false
+enabled = true
+cast_to = Vector2( 0, 20 )
+collision_mask = 2147483649
+collide_with_areas = true
+script = ExtResource( 10 )

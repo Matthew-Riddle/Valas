@@ -103,7 +103,7 @@ position = Vector2( 0, -15.0349 )
 texture = ExtResource( 1 )
 vframes = 4
 hframes = 23
-frame = 26
+frame = 24
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Run = SubResource( 1 )

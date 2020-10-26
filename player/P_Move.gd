@@ -11,7 +11,7 @@ var facing: = "right"
 var paused := false
 
 func unhandled_input(event: InputEvent) -> void:
-	print("yes")
+#	print("yes")
 	pass
 	
 func unhandled_key_input(event: InputEventKey) -> void:
@@ -56,7 +56,7 @@ func physics_process(delta: float) -> void:
 		_state_machine.Sprite.set_flip_h(true)
 	if facing == "right":
 		_state_machine.Sprite.set_flip_h(false)
-		
+	
 	velocity = calculate_velocity(velocity, max_speed, acceleration, delta, get_move_direction())
 	velocity = owner.move_and_slide(velocity, Vector2.UP)
 	#Events.emit_signal("player_moved", owner)

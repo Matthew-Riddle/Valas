@@ -5,7 +5,7 @@ onready var projectile_speed = 2000
 
 func _ready():
 	apply_impulse(Vector2(), Vector2(projectile_speed, 0).rotated(rotation))
-	$Laser.play()
+	#$Laser.play()
 #	yield($Laser, "finished")
 	
 
@@ -21,8 +21,8 @@ func _physics_process(delta):
 
 func _on_Bullet_body_entered(body):
 	if body.name != "Player" && !"Bullet" in body.name:
-		print("body: ", body.name)
-		$Bump.play()
+		#print("body: ", body.name)
+		#$Bump.play()
 #		yield($Bump, "finished")
 		self.queue_free()
 	
